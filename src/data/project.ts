@@ -10,9 +10,9 @@ export const company = {
     line4: "Greater Noida, West,",
     line5: "U.P. 201318",
   },
-  phone: "[CLIENT PHONE]",
-  email: "[CLIENT EMAIL]",
-  whatsapp: "[WHATSAPP_NUMBER]",
+  phone: "+91 95992 13531",
+  email: "rahulbisht0802@gmail.com",
+  whatsapp: "+91 95992 13531",
 };
 
 export const project = {

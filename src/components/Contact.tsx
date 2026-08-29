@@ -163,22 +163,24 @@ export default function Contact() {
 
                 <div className="flex items-center gap-4">
                   <Phone size={18} className="text-gold flex-shrink-0" />
-                  <span
-                    className="text-dark/55 text-sm"
+                  <a
+                    href={`tel:${company.phone.replace(/[^0-9+]/g, "")}`}
+                    className="text-dark/75 hover:text-primary text-sm font-medium transition-colors"
                     style={{ fontFamily: "var(--font-body)" }}
                   >
                     {company.phone}
-                  </span>
+                  </a>
                 </div>
 
                 <div className="flex items-center gap-4">
                   <Mail size={18} className="text-gold flex-shrink-0" />
-                  <span
-                    className="text-dark/55 text-sm"
+                  <a
+                    href={`mailto:${company.email}`}
+                    className="text-dark/75 hover:text-primary text-sm font-medium transition-colors"
                     style={{ fontFamily: "var(--font-body)" }}
                   >
                     {company.email}
-                  </span>
+                  </a>
                 </div>
               </div>
             </ScrollReveal>
