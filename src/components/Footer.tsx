@@ -15,15 +15,17 @@ export default function Footer() {
         <div className="grid md:grid-cols-3 gap-12 md:gap-8 pb-12 border-b border-white/10">
           {/* Left - Company */}
           <div>
-            <Image
-              src="/images/logo.png"
-              alt={company.name}
-              width={160}
-              height={42}
-              className="h-10 w-auto mb-4 brightness-0 invert"
-            />
+            <div className="bg-white px-3.5 py-2 rounded-lg inline-block mb-4 shadow-sm">
+              <Image
+                src="/images/logo.png"
+                alt={company.name}
+                width={180}
+                height={50}
+                className="h-9 w-auto object-contain"
+              />
+            </div>
             <p
-              className="text-white/50 text-sm leading-relaxed mt-3 max-w-xs"
+              className="text-white/50 text-sm leading-relaxed mt-1 max-w-xs"
               style={{ fontFamily: "var(--font-body)" }}
             >
               {company.tagline}

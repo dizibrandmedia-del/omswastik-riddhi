@@ -47,14 +47,14 @@ export default function Header() {
               e.preventDefault();
               handleNavClick("#home");
             }}
-            className="flex-shrink-0"
+            className="flex-shrink-0 bg-white px-3 py-1.5 rounded-lg shadow-sm hover:shadow-md transition-all flex items-center"
           >
             <Image
               src="/images/logo.png"
               alt="Om Swastik Buildhomes Pvt. Ltd."
               width={180}
-              height={48}
-              className="h-10 md:h-12 w-auto"
+              height={50}
+              className="h-8 sm:h-9 md:h-10 w-auto object-contain"
               priority
             />
           </a>
