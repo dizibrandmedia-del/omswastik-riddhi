@@ -89,7 +89,7 @@ export default function GrowthDrivers() {
                 style={{ fontFamily: "var(--font-heading)" }}
               >
                 <span className="text-gold">
-                  <CountUp end={4400} />
+                  <CountUp end={parseInt(solarPark.value, 10)} />
                 </span>{" "}
                 <span className="text-white/80 text-lg md:text-xl">{solarPark.unit}</span>{" "}
                 <span className="text-white">{solarPark.label}</span>

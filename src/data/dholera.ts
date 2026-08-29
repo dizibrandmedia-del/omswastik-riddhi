@@ -76,7 +76,7 @@ export const growthDrivers = [
 ];
 
 export const solarPark = {
-  value: "4400",
+  value: "300",
   unit: "MW",
   label: "Solar Park",
   description: "One of the world's largest solar parks powering Dholera's green future.",

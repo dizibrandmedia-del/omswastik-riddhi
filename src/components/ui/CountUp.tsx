@@ -17,7 +17,7 @@ export default function CountUp({
   prefix = "",
   decimals = 0,
 }: CountUpProps) {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(end);
   const ref = useRef<HTMLSpanElement>(null);
   const started = useRef(false);
 
