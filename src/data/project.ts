@@ -15,6 +15,30 @@ export const company = {
   whatsapp: "+91 95992 13531",
 };
 
+export const teamContacts = [
+  {
+    name: "Rahul Bisht",
+    phone: "+91 98104 84742",
+    email: "rahulbisht@omswastikbuildhomes.com",
+    address: "Gaur World Smart Street, ASF-151, 2nd Floor, Sector 16B, Greater Noida, West, U.P. 201318",
+    qr: "/images/qr-rahul.png",
+  },
+  {
+    name: "Prafull Singh",
+    phone: "+91 95992 13531",
+    email: "prafulsingh@omswastikbuildhomes.com",
+    address: "Gaur World Smart Street, ASF-151, 2nd Floor, Sector 16B, Greater Noida, West, U.P. 201318",
+    qr: "/images/qr-prafull.png",
+  },
+  {
+    name: "Santosh Gupta",
+    phone: "+91 99908 42233",
+    email: "santoshgupta@omswastikbuildhomes.com",
+    address: "Gaur World Smart Street, ASF-151, 2nd Floor, Sector 16B, Greater Noida, West, U.P. 201318",
+    qr: "/images/qr-santosh.png",
+  },
+];
+
 export const project = {
   name: "Riddhi",
   category: "Premium Plots | Prime Plots",

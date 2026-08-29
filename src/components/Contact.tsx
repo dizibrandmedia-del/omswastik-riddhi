@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { company, project } from "@/data/project";
+import { company, project, teamContacts } from "@/data/project";
 import SectionHeading from "@/components/ui/SectionHeading";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import Image from "next/image";
@@ -61,7 +61,7 @@ export default function Contact() {
       <section id="contact" className="bg-grey-light py-20 md:py-28 lg:py-32">
         <div className="max-w-[600px] mx-auto px-5 text-center">
           <ScrollReveal>
-            <div className="bg-white p-12 md:p-16">
+            <div className="bg-white p-12 md:p-16 rounded-2xl shadow-sm">
               <CheckCircle2 size={48} className="text-gold mx-auto mb-6" />
               <h3
                 className="text-2xl md:text-3xl font-semibold text-primary-dark mb-3"
@@ -101,17 +101,18 @@ export default function Contact() {
           subtitle="Get in touch with our team to learn more about this premium investment opportunity."
         />
 
-        <div className="grid lg:grid-cols-5 gap-10 lg:gap-16">
-          {/* Contact Info */}
+        {/* Top: Corporate Office Info & Enquiry Form */}
+        <div className="grid lg:grid-cols-5 gap-10 lg:gap-16 items-start mb-16 lg:mb-24">
+          {/* Corporate Profile */}
           <div className="lg:col-span-2">
             <ScrollReveal>
               <div className="mb-8">
                 <Image
                   src="/images/logo.png"
                   alt={company.name}
-                  width={180}
-                  height={48}
-                  className="h-12 w-auto mb-4"
+                  width={220}
+                  height={60}
+                  className="h-12 w-auto mb-4 object-contain"
                 />
                 <p
                   className="text-primary-dark text-lg font-semibold"
@@ -133,7 +134,7 @@ export default function Contact() {
                 <div className="flex items-start gap-4">
                   <MapPin size={18} className="text-gold mt-0.5 flex-shrink-0" />
                   <div
-                    className="text-dark/55 text-sm leading-relaxed"
+                    className="text-dark/65 text-sm leading-relaxed"
                     style={{ fontFamily: "var(--font-body)" }}
                   >
                     {company.address.line1}
@@ -154,7 +155,7 @@ export default function Contact() {
                     href={`https://${company.website}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-primary text-sm hover:text-gold transition-colors"
+                    className="text-primary text-sm hover:text-gold transition-colors font-medium"
                     style={{ fontFamily: "var(--font-body)" }}
                   >
                     {company.website}
@@ -212,7 +213,7 @@ export default function Contact() {
           {/* Enquiry Form */}
           <div className="lg:col-span-3">
             <ScrollReveal delay={150}>
-              <form onSubmit={handleSubmit} className="bg-white p-8 md:p-10 lg:p-12">
+              <form onSubmit={handleSubmit} className="bg-white p-8 md:p-10 lg:p-12 rounded-2xl shadow-sm">
                 <h3
                   className="text-xl md:text-2xl font-semibold text-primary-dark mb-6"
                   style={{ fontFamily: "var(--font-heading)", fontSize: "1.6rem" }}
@@ -334,6 +335,130 @@ export default function Contact() {
                 </div>
               </form>
             </ScrollReveal>
+          </div>
+        </div>
+
+        {/* Executive Contact Cards */}
+        <div className="pt-8 border-t border-dark/10">
+          <ScrollReveal>
+            <div className="text-center mb-10">
+              <p
+                className="text-gold text-xs font-semibold tracking-[0.2em] uppercase mb-2"
+                style={{ fontFamily: "var(--font-body)" }}
+              >
+                Executive Contacts
+              </p>
+              <h3
+                className="text-2xl sm:text-3xl md:text-4xl font-semibold text-primary-dark"
+                style={{ fontFamily: "var(--font-heading)" }}
+              >
+                Connect With Our Team
+              </h3>
+            </div>
+          </ScrollReveal>
+
+          <div className="grid md:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto">
+            {teamContacts.map((contact, i) => (
+              <ScrollReveal key={contact.name} delay={i * 100}>
+                <div className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5 border border-grey-light flex flex-col h-full">
+                  {/* Card Header (Deep Teal with QR code) */}
+                  <div className="bg-primary-dark px-6 py-5 flex items-center justify-between">
+                    <div>
+                      <h4
+                        className="text-white text-xl md:text-2xl font-semibold tracking-wide"
+                        style={{ fontFamily: "var(--font-heading)" }}
+                      >
+                        {contact.name}
+                      </h4>
+                      <p
+                        className="text-white/60 text-xs mt-0.5 tracking-wider uppercase"
+                        style={{ fontFamily: "var(--font-body)" }}
+                      >
+                        Om Swastik Buildhomes
+                      </p>
+                    </div>
+                    <div className="w-14 h-14 bg-white p-1 rounded-lg flex-shrink-0 flex items-center justify-center shadow-inner">
+                      <Image
+                        src={contact.qr}
+                        alt={`QR code for ${contact.name}`}
+                        width={50}
+                        height={50}
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Gold Divider Ribbon */}
+                  <div className="h-1.5 bg-gradient-to-r from-gold via-gold-deep to-gold" />
+
+                  {/* Card Body */}
+                  <div className="p-6 bg-ivory/40 flex-1 flex flex-col justify-between space-y-4">
+                    <div className="space-y-3.5">
+                      {/* Phone */}
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                          <Phone size={15} className="text-primary" />
+                        </div>
+                        <a
+                          href={`tel:${contact.phone.replace(/[^0-9+]/g, "")}`}
+                          className="text-dark/80 hover:text-primary font-medium text-sm transition-colors"
+                          style={{ fontFamily: "var(--font-body)" }}
+                        >
+                          {contact.phone}
+                        </a>
+                      </div>
+
+                      {/* Email */}
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                          <Mail size={15} className="text-primary" />
+                        </div>
+                        <a
+                          href={`mailto:${contact.email}`}
+                          className="text-dark/80 hover:text-primary text-xs sm:text-sm transition-colors break-all"
+                          style={{ fontFamily: "var(--font-body)" }}
+                        >
+                          {contact.email}
+                        </a>
+                      </div>
+
+                      {/* Address */}
+                      <div className="flex items-start gap-3 pt-1">
+                        <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <MapPin size={15} className="text-primary" />
+                        </div>
+                        <p
+                          className="text-dark/60 text-xs leading-relaxed"
+                          style={{ fontFamily: "var(--font-body)" }}
+                        >
+                          {contact.address}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Quick Call / WhatsApp CTA */}
+                    <div className="pt-3 border-t border-dark/10 flex gap-2">
+                      <a
+                        href={`tel:${contact.phone.replace(/[^0-9+]/g, "")}`}
+                        className="flex-1 py-2 text-center text-xs font-semibold uppercase tracking-wider bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
+                        style={{ fontFamily: "var(--font-body)" }}
+                      >
+                        Call
+                      </a>
+                      <a
+                        href={`https://wa.me/${contact.phone.replace(/[^0-9]/g, "")}?text=Hi%20${encodeURIComponent(contact.name)}%2C%20I%20am%20interested%20in%20Riddhi%20Premium%20Plots%20in%20Dholera.`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 py-2 text-center text-xs font-semibold uppercase tracking-wider bg-[#25D366] text-white rounded-lg hover:bg-[#20ba59] transition-colors"
+                        style={{ fontFamily: "var(--font-body)" }}
+                      >
+                        WhatsApp
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </ScrollReveal>
+            ))}
           </div>
         </div>
       </div>
