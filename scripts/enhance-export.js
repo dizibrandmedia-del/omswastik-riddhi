@@ -31,6 +31,17 @@ for (const f of cssFiles) {
   combinedCss += fs.readFileSync(f, 'utf8') + '\n';
 }
 
+// Ensure section-fade is visible by default in inlined css
+combinedCss += `
+.section-fade {
+  opacity: 1 !important;
+  transform: none !important;
+}
+html {
+  scroll-behavior: smooth;
+}
+`;
+
 // Write to root styles.css
 fs.writeFileSync(path.join(outDir, 'styles.css'), combinedCss, 'utf8');
 console.log(`Wrote ${combinedCss.length} bytes to styles.css`);
@@ -38,70 +49,53 @@ console.log(`Wrote ${combinedCss.length} bytes to styles.css`);
 // 2. Read index.html
 let html = fs.readFileSync(indexPath, 'utf8');
 
-// Inline CSS into <head>
+// Inline CSS and standalone scripts into <head>
 const inlineStyle = `
   <link rel="stylesheet" href="/styles.css" />
   <style id="inlined-theme-css">
 ${combinedCss}
   </style>
   <script>
-    // Self-contained interactivity for LiteSpeed / static hosting
+    // Universal Standalone Script for LiteSpeed & Mobile Browsers
     document.addEventListener('DOMContentLoaded', function() {
-      // 1. Header scroll effect
-      var header = document.querySelector('header');
-      function updateHeader() {
-        if (window.scrollY > 60) {
-          header && header.classList.add('scrolled');
+      // 1. Header scroll background
+      var header = document.getElementById('main-header') || document.querySelector('header');
+      function onScroll() {
+        if (window.scrollY > 30) {
+          header && header.classList.add('scrolled', 'shadow-md');
         } else {
-          header && header.classList.remove('scrolled');
+          header && header.classList.remove('scrolled', 'shadow-md');
         }
       }
-      window.addEventListener('scroll', updateHeader, { passive: true });
-      updateHeader();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
 
-      // 2. Scroll reveal
-      var observer = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            observer.unobserve(entry.target);
+      // 2. Mobile Menu Toggle
+      var menuBtn = document.getElementById('mobile-menu-btn');
+      var mobileNav = document.getElementById('mobile-nav-panel');
+      if (menuBtn && mobileNav) {
+        menuBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var isHidden = mobileNav.classList.contains('invisible') || mobileNav.classList.contains('opacity-0');
+          if (isHidden) {
+            mobileNav.classList.remove('invisible', 'opacity-0', '-translate-y-4', 'pointer-events-none');
+            mobileNav.classList.add('visible', 'opacity-100', 'translate-y-0');
+          } else {
+            mobileNav.classList.remove('visible', 'opacity-100', 'translate-y-0');
+            mobileNav.classList.add('invisible', 'opacity-0', '-translate-y-4', 'pointer-events-none');
           }
         });
-      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
-      document.querySelectorAll('.section-fade').forEach(function(el) {
-        observer.observe(el);
-      });
-
-      // 3. Count Up
-      var countObserver = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          if (entry.isIntersecting) {
-            var el = entry.target;
-            var target = parseFloat(el.getAttribute('data-count') || el.innerText);
-            if (!isNaN(target) && target > 0) {
-              var duration = 2000;
-              var start = performance.now();
-              function animate(now) {
-                var elapsed = now - start;
-                var progress = Math.min(elapsed / duration, 1);
-                var eased = 1 - Math.pow(1 - progress, 3);
-                var current = eased * target;
-                el.innerText = target % 1 === 0 ? Math.round(current) : current.toFixed(1);
-                if (progress < 1) requestAnimationFrame(animate);
-              }
-              requestAnimationFrame(animate);
-            }
-            countObserver.unobserve(el);
-          }
+        // Close on link click
+        mobileNav.querySelectorAll('a').forEach(function(link) {
+          link.addEventListener('click', function() {
+            mobileNav.classList.remove('visible', 'opacity-100', 'translate-y-0');
+            mobileNav.classList.add('invisible', 'opacity-0', '-translate-y-4', 'pointer-events-none');
+          });
         });
-      }, { threshold: 0.3 });
+      }
 
-      document.querySelectorAll('[data-count]').forEach(function(el) {
-        countObserver.observe(el);
-      });
-
-      // 4. Smooth scrolling for anchors
+      // 3. Smooth scrolling for anchor links
       document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
         anchor.addEventListener('click', function(e) {
           var targetId = this.getAttribute('href');
@@ -109,38 +103,13 @@ ${combinedCss}
             var targetEl = document.querySelector(targetId);
             if (targetEl) {
               e.preventDefault();
-              targetEl.scrollIntoView({ behavior: 'smooth' });
-              // Close mobile menu if open
-              var mobileMenu = document.querySelector('.mobile-menu-container');
-              if (mobileMenu) {
-                mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
-                mobileMenu.classList.add('opacity-0', 'pointer-events-none');
-                document.body.style.overflow = '';
-              }
+              targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
           }
         });
       });
 
-      // 5. Mobile menu toggle
-      var menuBtn = document.querySelector('button[aria-label*="menu"]');
-      var mobileMenu = document.querySelector('.mobile-menu-container');
-      if (menuBtn && mobileMenu) {
-        menuBtn.addEventListener('click', function() {
-          var isOpen = mobileMenu.classList.contains('opacity-100');
-          if (isOpen) {
-            mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
-            mobileMenu.classList.add('opacity-0', 'pointer-events-none');
-            document.body.style.overflow = '';
-          } else {
-            mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
-            mobileMenu.classList.add('opacity-100', 'pointer-events-auto');
-            document.body.style.overflow = 'hidden';
-          }
-        });
-      }
-
-      // 6. Enquiry form submission
+      // 4. Form submission handler
       var form = document.querySelector('form');
       if (form) {
         form.addEventListener('submit', function(e) {
