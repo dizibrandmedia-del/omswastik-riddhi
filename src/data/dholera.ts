@@ -1,8 +1,8 @@
 export const keyMetrics = [
-  { value: "920", unit: "Sq. Km", label: "Dholera SIR" },
-  { value: "", unit: "Greenfield", label: "Smart City" },
-  { value: "", unit: "DMIC", label: "Connected" },
-  { value: "", unit: "Strategic", label: "Connectivity" },
+  { value: "920", unit: "Sq. Km", label: "Total Area" },
+  { value: "2.0", unit: "Million*", label: "Population" },
+  { value: "422", unit: "Sq. Km", label: "Developable Area" },
+  { value: "0.8", unit: "Million*", label: "Estimated Employment" },
 ];
 
 export const whyDholera = [
@@ -156,9 +156,9 @@ export const dholeraSIR = {
   ],
   stats: [
     { value: "920", unit: "Sq. Km", label: "Total Area" },
-    { value: "2.0", unit: "Million", label: "Population" },
+    { value: "2.0", unit: "Million*", label: "Population" },
     { value: "422", unit: "Sq. Km", label: "Developable Area" },
-    { value: "0.8", unit: "Million", label: "Estimated Employment" },
+    { value: "0.8", unit: "Million*", label: "Estimated Employment" },
   ],
 };
 
